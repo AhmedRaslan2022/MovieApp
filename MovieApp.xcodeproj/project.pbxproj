@@ -30,20 +30,31 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A38E7E5B2E5BC09F00B815D9 /* Exceptions for "MovieApp" folder in "MovieApp" target */ = {
+		A38E7F782E5C056200B815D9 /* Exceptions for "MovieApp" folder in "MovieApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				App/Configs/Info.plist,
+				Resources/MovieApp.xcdatamodeld,
 			);
 			target = A38E7E2F2E5BC09E00B815D9 /* MovieApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		A38E7F792E5C056200B815D9 /* Exceptions for "MovieApp" folder in "Compile Sources" phase from "MovieApp" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = A38E7E2C2E5BC09E00B815D9 /* Sources */;
+			membershipExceptions = (
+				Resources/MovieApp.xcdatamodeld,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A38E7E322E5BC09E00B815D9 /* MovieApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A38E7E5B2E5BC09F00B815D9 /* Exceptions for "MovieApp" folder in "MovieApp" target */,
+				A38E7F782E5C056200B815D9 /* Exceptions for "MovieApp" folder in "MovieApp" target */,
+				A38E7F792E5C056200B815D9 /* Exceptions for "MovieApp" folder in "Compile Sources" phase from "MovieApp" target */,
 			);
 			path = MovieApp;
 			sourceTree = "<group>";

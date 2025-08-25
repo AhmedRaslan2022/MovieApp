@@ -5,3 +5,9 @@
 //  Created by Ahmed Raslan on 25/08/2025.
 //
 
+
+SLASH = /
+
+API_BASE_URL = https:$(SLASH)/api.themoviedb.org/
+API_Key = 5ad6129c759ba75c0ecbdf37ebe02cb8
+ 
