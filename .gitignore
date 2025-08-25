@@ -1,0 +1,22 @@
+#========================
+# Xcode & Build Results
+#========================
+build/
+DerivedData/
+*.xcresult
+*.xcarchive
+*.app
+*.ipa
+*.app.dSYM/
+
+#========================
+ # Xcode user data
+#========================
+*.xcuserstate
+xcuserdata/
+
+#========================
+# macOS System Files
+#========================
+.DS_Store
+
