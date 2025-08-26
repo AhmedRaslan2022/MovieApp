@@ -34,28 +34,16 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/Configs/Info.plist,
-				Sources/Data/MoviesRepositoryswift,
 			);
 			target = A38E7E2F2E5BC09E00B815D9 /* MovieApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		A38E83402E5DAC8800B815D9 /* Exceptions for "MovieApp" folder in "Compile Sources" phase from "MovieApp" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = A38E7E2C2E5BC09E00B815D9 /* Sources */;
-			membershipExceptions = (
-				Sources/Data/MoviesRepositoryswift,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A38E7E322E5BC09E00B815D9 /* MovieApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A38E82B42E5D0C2D00B815D9 /* Exceptions for "MovieApp" folder in "MovieApp" target */,
-				A38E83402E5DAC8800B815D9 /* Exceptions for "MovieApp" folder in "Compile Sources" phase from "MovieApp" target */,
 			);
 			path = MovieApp;
 			sourceTree = "<group>";
