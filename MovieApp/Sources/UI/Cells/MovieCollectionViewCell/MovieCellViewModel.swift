@@ -17,7 +17,7 @@ protocol MovieCellViewModelType {
     var isFavourite: Bool { get }
 }
 
-final class MovieCellViewModel: MovieCellViewModelType {
+final class MovieCellViewModel: MovieCellViewModelType, Equatable {
     
     private let movie: MovieEntity
     
@@ -32,4 +32,8 @@ final class MovieCellViewModel: MovieCellViewModelType {
     var isFavourite: Bool { movie.isFavourite }
     var releaseDate: String { movie.releaseDate }
 
+    
+    static func == (lhs: MovieCellViewModel, rhs: MovieCellViewModel) -> Bool {
+            return lhs.id == rhs.id
+        }
 }

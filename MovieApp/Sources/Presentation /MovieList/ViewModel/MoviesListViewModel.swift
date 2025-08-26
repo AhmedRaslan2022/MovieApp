@@ -11,87 +11,100 @@ import Combine
 // MARK: MoviesListViewModel
 @MainActor
 final class MoviesListViewModel: MoviesListViewModelType {
-   
-    let  viewState =  PassthroughSubject<MoviesListViewState, Never>()
+ 
+    
+    enum Input {
+        case loadNextPage
+        case refresh
+    }
+    
+    let viewState = CurrentValueSubject<MoviesListViewState, Never>(.loading)
+    
     private var movies: [MovieEntity] = []
     private let fetchMoviesUseCase: FetchMoviesUseCaseProtocol
     private let coordinator: MoviesCoordinatorProtocol
+    
+    // Pagination
     private var currentPage = 1
-    private var canLoadMorePages = true
+    private var totalPages = 1
+    
     private var cancellables = Set<AnyCancellable>()
-
-     init(
-        coordinator: MoviesCoordinatorProtocol,
-        fetchMoviesUseCase: FetchMoviesUseCaseProtocol
-    ) {
-        self.fetchMoviesUseCase = fetchMoviesUseCase
+    
+    // Input Subject
+    private let inputSubject = PassthroughSubject<Input, Never>()
+    
+    init(coordinator: MoviesCoordinatorProtocol,
+         fetchMoviesUseCase: FetchMoviesUseCaseProtocol) {
         self.coordinator = coordinator
+        self.fetchMoviesUseCase = fetchMoviesUseCase
+        
+        bindInput()
     }
     
     func viewDidLoad() {
-        loadMovies()
+        inputSubject.send(.refresh)
     }
-    
-    
-    func loadNextPage() {
-        loadMovies(page: currentPage + 1)
-    }
-    
     
     func refresh() {
-        currentPage = 1
-        canLoadMorePages = true
-        movies.removeAll()
-        loadMovies(page: 1)
+        inputSubject.send(.refresh)
     }
     
-    
-    func favWasPressed(movieId: Int) {
-        
+    func loadNextPage() {
+        inputSubject.send(.loadNextPage)
     }
+    
+    func favWasPressed(movieId: Int) {}
     
     func navigateToMovieDetails(movieId: Int) {
-        guard let movie = movies.first(where: {$0.id == movieId}) else {return}
+        guard let movie = movies.first(where: { $0.id == movieId }) else { return }
         coordinator.navigate(to: .movieDetails(movie: movie))
     }
     
-  
-}
- 
-
-private extension MoviesListViewModel {
+    // MARK: - Private
     
-    private func loadMovies(page: Int = 1) {
-        guard canLoadMorePages else {return}
-        self.viewState.send(.loading)
+    private func bindInput() {
+        inputSubject
+            .flatMap { [weak self] input -> AnyPublisher<[MovieEntity], Never> in
+                guard let self = self else { return Just([]).eraseToAnyPublisher() }
+                
+                switch input {
+                case .refresh:
+                    self.currentPage = 1
+                    self.totalPages = 1
+                    self.movies.removeAll()
+                    self.viewState.send(.loading)
+                    return self.fetch(page: self.currentPage)
+                    
+                case .loadNextPage:
+                    guard self.currentPage <= self.totalPages else { return Just([]).eraseToAnyPublisher() }
+                    self.viewState.send(.loading)
+                    return self.fetch(page: self.currentPage)
+                }
+            }
+            .sink { [weak self] newMovies in
+                guard let self = self else { return }
+                
+                self.movies.append(contentsOf: newMovies)
+                self.currentPage += 1
+                self.totalPages = max(self.totalPages, self.currentPage)
+                
+                let cellVMs = self.movies.map { MovieCellViewModel(movie: $0) }
+                if cellVMs.isEmpty {
+                    self.viewState.send(.empty)
+                } else {
+                    self.viewState.send(.populated(cellVMs))
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func fetch(page: Int) -> AnyPublisher<[MovieEntity], Never> {
         fetchMoviesUseCase.execute(page: page)
-             .receive(on: DispatchQueue.main)
-             .sink { [weak self] completion in
-                 guard let self = self else { return }
-                 if case .failure(let error) = completion {
-                     self.viewState.send(.error(error.localizedDescription))
-                 }
-             } receiveValue: { [weak self] newMovies in
-                 guard let self = self else { return }
-                 if newMovies.isEmpty {
-                     self.canLoadMorePages = false
-                 } else {
-                     if page == 1 {
-                         self.movies = newMovies
-                     } else {
-                         self.movies.append(contentsOf: newMovies)
-                     }
-                     self.currentPage = page
-
-                     let cellViewModels = self.movies.map { movie in
-                         MovieCellViewModel(
-                            movie: movie
-                         )
-                     }
-                     
-                     self.viewState.send(.populated(cellViewModels))
-                 }
-             }
-             .store(in: &cancellables)
-     }
+            .map { $0.movies }
+            .catch { [weak self] error -> Just<[MovieEntity]> in
+                self?.viewState.send(.error(error.localizedDescription))
+                return Just([])
+            }
+            .eraseToAnyPublisher()
+    }
 }

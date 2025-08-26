@@ -25,7 +25,7 @@ protocol MoviesListViewModelInput {
 ///
 @MainActor
 protocol MoviesListViewModelOutput {
-    var viewState: PassthroughSubject<MoviesListViewState, Never> {get}
+    var viewState: CurrentValueSubject<MoviesListViewState, Never> {get}
  }
 
 
@@ -39,8 +39,24 @@ protocol MoviesListViewModelActions {
 }
 
 
-enum MoviesListViewState {
+enum MoviesListViewState : Equatable{
     case loading
+    case empty
     case error(String)
     case populated([MovieCellViewModel])
+    
+    
+    static func == (lhs: MoviesListViewState, rhs: MoviesListViewState) -> Bool {
+           switch (lhs, rhs) {
+           case (.loading, .loading),
+                (.empty, .empty):
+               return true
+           case let (.error(lMsg), .error(rMsg)):
+               return lMsg == rMsg
+           case let (.populated(lMovies), .populated(rMovies)):
+               return lMovies == rMovies
+           default:
+               return false
+           }
+       }
 }

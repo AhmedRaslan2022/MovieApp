@@ -8,18 +8,19 @@
 import Combine
 
 protocol FetchMoviesUseCaseProtocol {
-    func execute(page: Int) -> AnyPublisher<[MovieEntity], AppError>
+    func execute(page: Int) -> AnyPublisher<MoviesListEntity, AppError>
 }
 
 
 final class FetchMoviesUseCase: FetchMoviesUseCaseProtocol {
+    
     private let repository: MoviesRepositoryProtocol
     
     init(repository: MoviesRepositoryProtocol) {
         self.repository = repository
     }
     
-    func execute(page: Int) -> AnyPublisher<[MovieEntity], AppError> {
-       return  repository.fetchMovies(page: page)
+    func execute(page: Int) -> AnyPublisher<MoviesListEntity, AppError> {
+        repository.fetchMovies(page: page)
     }
 }

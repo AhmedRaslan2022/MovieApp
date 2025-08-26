@@ -6,10 +6,18 @@
 //
 
 import Foundation
-
-enum MovieMapper {
-
-    static func map(_ dto: MovieDTO) -> MovieEntity {
+ 
+enum MoviesMapper {
+    
+    static func map(_ dto: MoviesDTO) -> MoviesListEntity {
+        MoviesListEntity(
+            movies: dto.results.map { map($0) },
+            page: dto.page,
+            totalPages: dto.totalPages
+        )
+    }
+    
+    private static func map(_ dto: MovieDTO) -> MovieEntity {
         MovieEntity(
             id: dto.id,
             poster: buildImageURL(from: dto.posterPath),
@@ -22,15 +30,9 @@ enum MovieMapper {
         )
     }
     
-    static func map(_ dtos: [MovieDTO]) -> [MovieEntity] {
-        return dtos.map { map($0) }
-    }
-    
     private static func buildImageURL(from path: String?) -> String {
-            guard let path = path else { return "" }
-            return "https://image.tmdb.org/t/p/w500\(path)"
-        }
+        guard let path = path else { return "" }
+        return "https://image.tmdb.org/t/p/w500\(path)"
+    }
 }
 
-
- 

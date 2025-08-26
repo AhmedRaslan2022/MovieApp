@@ -13,6 +13,7 @@ final class LoadingFooterView: UICollectionReusableView {
 
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.tintColor = .red
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.hidesWhenStopped = true
         return spinner
