@@ -13,6 +13,7 @@ protocol MoviesCoordinatorProtocol: UIKitNavigationCoordinator {
 @MainActor
 protocol MoviesDependencies {
     func makeMoviesListViewController(coordinator: MoviesCoordinatorProtocol) -> MoviesListViewController
+    func makeMovieDetailsViewController(movie: MovieEntity) -> MovieDetailsViewController
 }
 
 // MARK: - MoviesSteps

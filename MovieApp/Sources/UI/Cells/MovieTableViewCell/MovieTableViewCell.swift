@@ -40,14 +40,14 @@ final class MovieTableViewCell: UITableViewCell {
     
     
     
-    func configCell(with movie: MovieCellViewModel){
+    func configCell(with movie: MovieCellViewModelType){
         self.id = movie.id
         movieImageView.setWith(movie.posterURL)
         movieTitleLabel.text = movie.title
         movieRatingLabel.text = movie.ratingText
         movieReleaseDateLabel.text = movie.releaseDate
         favButton.isSelected = movie.isFavourite
-        favButton.tintColor = movie.isFavourite ? .red : .gray
+        favButton.tintColor = movie.isFavourite ? .red : .white
         rateStarsView.rating = Float(movie.rating)
     }
     

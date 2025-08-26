@@ -32,14 +32,18 @@ public class MoviesCoordinator: MoviesCoordinatorProtocol {
         case .moviesList:
             navigateToMoviesList()
         case .movieDetails(movie: let movie):
-            break
+            navigateToMovieDetails(movie)
         }
     }
     
     
     fileprivate func navigateToMoviesList() {
         let vc = dependencies.makeMoviesListViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        navigationController.setViewControllers([vc], animated: true)
     }
     
+    fileprivate func navigateToMovieDetails(_ movie: MovieEntity) {
+        let vc = dependencies.makeMovieDetailsViewController(movie: movie)
+        navigationController.pushViewController(vc, animated: false)
+    }
 }

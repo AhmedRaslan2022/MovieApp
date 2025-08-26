@@ -53,4 +53,10 @@ final class MoviesDIContainer: MoviesDependencies {
         let vc = MoviesListViewController(viewModel: vm)
         return vc
     }
+    
+    func makeMovieDetailsViewController(movie: MovieEntity) -> MovieDetailsViewController {
+        let vm = MovieDetailsViewModel(movie: movie)
+        let vc = MovieDetailsViewController(viewModel: vm)
+        return vc
+    }
 }

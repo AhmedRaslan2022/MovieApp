@@ -127,7 +127,7 @@ extension MoviesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-       
+        viewModel.navigateToMovieDetails(movieId: movies[indexPath.row].id)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

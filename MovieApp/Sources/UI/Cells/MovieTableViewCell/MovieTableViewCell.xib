@@ -42,7 +42,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="30" id="LhP-zz-thR"/>
                                                         </constraints>
-                                                        <color key="tintColor" systemColor="systemGray5Color"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" image="heart" catalog="system"/>
                                                         <state key="selected" image="heart.fill" catalog="system"/>
@@ -50,7 +50,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="1sm-8w-Btk">
-                                                <rect key="frame" x="0.0" y="143" width="393.33333333333331" height="58"/>
+                                                <rect key="frame" x="0.0" y="148" width="393.33333333333331" height="53"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JFh-21-41N">
                                                         <rect key="frame" x="0.0" y="0.0" width="393.33333333333331" height="17"/>
@@ -58,20 +58,20 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="KiE-fl-0wu">
-                                                        <rect key="frame" x="0.0" y="33" width="393.33333333333331" height="25"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KiE-fl-0wu">
+                                                        <rect key="frame" x="0.0" y="33" width="393.33333333333331" height="20"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ikE-x9-bWP">
-                                                                <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="25"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="20"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                                 <color key="textColor" systemColor="systemYellowColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I8b-Gb-Cql" customClass="StarRatingView" customModule="MovieApp" customModuleProvider="target">
-                                                                <rect key="frame" x="57.333333333333343" y="0.0" width="336" height="25"/>
+                                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I8b-Gb-Cql" customClass="StarRatingView" customModule="MovieApp" customModuleProvider="target">
+                                                                <rect key="frame" x="49.333333333333343" y="0.0" width="344" height="20"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="25" id="C1D-7K-tVI"/>
+                                                                    <constraint firstAttribute="height" constant="20" id="C1D-7K-tVI"/>
                                                                 </constraints>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="color" keyPath="starColor">
@@ -133,9 +133,6 @@
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <systemColor name="systemBrownColor">
             <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
