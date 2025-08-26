@@ -28,7 +28,7 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
             .populated(
               .init(
                   posterURL: movie.poster,
-                  backgroundUrl: movie.backGroundImage,
+                  backgroundUrl: movie.backgroundImage,
                   title: movie.name,
                   ratingText:  String(format: "%.1f/10", movie.rating),
                   releaseDate: movie.releaseDate,

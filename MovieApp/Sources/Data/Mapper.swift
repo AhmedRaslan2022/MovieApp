@@ -27,7 +27,7 @@ enum MoviesMapper {
             isFavourite: false,
             overview: dto.overview,
             language: dto.originalLanguage,
-            backGroundImage: buildImageURL(from: dto.backdropPath),
+            backgroundImage: buildImageURL(from: dto.backdropPath),
             voters: dto.voteCount
         )
     }
