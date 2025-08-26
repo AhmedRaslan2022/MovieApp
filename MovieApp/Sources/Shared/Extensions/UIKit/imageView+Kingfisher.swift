@@ -11,9 +11,9 @@ import Kingfisher
 extension UIImageView {
     func setWith(_ stringURL: String?) {
         self.kf.indicatorType = .activity
-        let placeholder = UIImage(named: "AppIcon")
+        let placeholder = UIImage(named: "logo")
         guard let stringURL, let url = URL(string: stringURL) else {
-            self.image = UIImage(named: "AppIcon")
+            self.image = UIImage(named: "logo")
             return
         }
         self.kf.setImage(

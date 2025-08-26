@@ -269,6 +269,8 @@
 /* Begin XCBuildConfiguration section */
 		A38E7E5D2E5BC09F00B815D9 /* Debug configuration for PBXNativeTarget "MovieApp" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A38E7E322E5BC09E00B815D9 /* MovieApp */;
+			baseConfigurationReferenceRelativePath = App/Configs/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +304,8 @@
 		};
 		A38E7E5E2E5BC09F00B815D9 /* Release configuration for PBXNativeTarget "MovieApp" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A38E7E322E5BC09E00B815D9 /* MovieApp */;
+			baseConfigurationReferenceRelativePath = App/Configs/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -335,6 +339,8 @@
 		};
 		A38E7E5F2E5BC09F00B815D9 /* Debug configuration for PBXProject "MovieApp" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A38E7E322E5BC09E00B815D9 /* MovieApp */;
+			baseConfigurationReferenceRelativePath = App/Configs/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -399,6 +405,8 @@
 		};
 		A38E7E602E5BC09F00B815D9 /* Release configuration for PBXProject "MovieApp" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A38E7E322E5BC09E00B815D9 /* MovieApp */;
+			baseConfigurationReferenceRelativePath = App/Configs/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

@@ -39,12 +39,18 @@ final class MoviesListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+        setupUI()
         bindViewModel()
         viewModel.viewDidLoad()
     }
     
     // MARK: - Setup
+    
+    private func setupUI(){
+        self.title = "Movies List"
+        setupCollectionView()
+    }
+    
     private func setupCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -138,7 +144,7 @@ extension MoviesListViewController: UICollectionViewDelegateFlowLayout {
         let spacing: CGFloat = 16
         let totalSpacing = spacing * 3
         let width = (collectionView.bounds.width - totalSpacing) / 2
-        return CGSize(width: width, height: width * 1.6)
+        return CGSize(width: width, height: width * 1.5)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

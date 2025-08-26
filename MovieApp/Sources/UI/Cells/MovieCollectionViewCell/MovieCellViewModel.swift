@@ -28,7 +28,7 @@ final class MovieCellViewModel: MovieCellViewModelType {
     var id: Int { movie.id }
     var title: String { movie.name }
     var posterURL: String { movie.poster }
-    var ratingText: String { "\(movie.rating)/10" }
+    var ratingText: String { String(format: "%.1f/10", movie.rating) }
     var isFavourite: Bool { movie.isFavourite }
     var releaseDate: String { movie.releaseDate }
 
