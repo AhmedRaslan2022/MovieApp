@@ -48,8 +48,7 @@ enum MoviesListViewState : Equatable{
     
     static func == (lhs: MoviesListViewState, rhs: MoviesListViewState) -> Bool {
            switch (lhs, rhs) {
-           case (.loading, .loading),
-                (.empty, .empty):
+           case (.loading, .loading):
                return true
            case let (.error(lMsg), .error(rMsg)):
                return lMsg == rMsg

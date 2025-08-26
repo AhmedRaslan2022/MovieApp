@@ -11,41 +11,32 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MoviesListViewController" customModule="MovieApp" customModuleProvider="target">
             <connections>
-                <outlet property="collectionView" destination="m0u-kY-21c" id="Qwc-dc-01Y"/>
+                <outlet property="tableView" destination="r5U-Lv-0l7" id="qeD-mD-IJl"/>
                 <outlet property="view" destination="iN0-l3-epB" id="gN1-hn-oUf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view alpha="0.75" contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="m0u-kY-21c">
-                    <rect key="frame" x="0.0" y="134" width="393" height="650"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="DQB-Kk-bFZ">
-                        <size key="itemSize" width="128" height="128"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="r5U-Lv-0l7">
+                    <rect key="frame" x="8" y="134" width="377" height="634"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="m0u-kY-21c" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="1BD-Rd-gDN"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="m0u-kY-21c" secondAttribute="bottom" id="4Bp-Ol-jgC"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="m0u-kY-21c" secondAttribute="trailing" id="HYq-Hk-GXy"/>
-                <constraint firstItem="m0u-kY-21c" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ZEr-nn-bLL"/>
+                <constraint firstItem="r5U-Lv-0l7" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="9Cd-Ke-O7G"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="r5U-Lv-0l7" secondAttribute="trailing" constant="8" id="9Fd-9d-LZv"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="r5U-Lv-0l7" secondAttribute="bottom" constant="16" id="MFL-yl-lrw"/>
+                <constraint firstItem="r5U-Lv-0l7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="k5q-LC-3aa"/>
             </constraints>
             <point key="canvasLocation" x="114" y="21"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

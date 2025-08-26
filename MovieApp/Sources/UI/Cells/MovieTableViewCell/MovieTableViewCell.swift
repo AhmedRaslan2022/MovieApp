@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MovieCollectionViewCell: UICollectionViewCell {
+final class MovieTableViewCell: UITableViewCell {
     
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var movieImageView: UIImageView!
@@ -15,7 +15,8 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var movieRatingLabel: UILabel!
     @IBOutlet private weak var movieReleaseDateLabel: UILabel!
     @IBOutlet private weak var favButton: UIButton!
- 
+    @IBOutlet private weak var rateStarsView: StarRatingView!
+
 
     var favAction: ((_ id: Int)-> Void)?
     
@@ -23,9 +24,9 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        movieImageView.layer.cornerRadius = 8.0
-        movieImageView.clipsToBounds = true
-        containerView.applyDefaultStyle()
+        selectionStyle = .none
+        containerView.layer.cornerRadius = 8.0
+        
     }
 
     
@@ -47,7 +48,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         movieReleaseDateLabel.text = movie.releaseDate
         favButton.isSelected = movie.isFavourite
         favButton.tintColor = movie.isFavourite ? .red : .gray
-     
+        rateStarsView.rating = Float(movie.rating)
     }
     
     

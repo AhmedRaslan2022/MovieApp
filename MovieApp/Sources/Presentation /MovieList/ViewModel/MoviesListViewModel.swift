@@ -28,10 +28,12 @@ final class MoviesListViewModel: MoviesListViewModelType {
     private var currentPage = 1
     private var totalPages = 1
     
-    private var cancellables = Set<AnyCancellable>()
     
     // Input Subject
     private let inputSubject = PassthroughSubject<Input, Never>()
+    
+    private var cancellables = Set<AnyCancellable>()
+
     
     init(coordinator: MoviesCoordinatorProtocol,
          fetchMoviesUseCase: FetchMoviesUseCaseProtocol) {
@@ -89,11 +91,7 @@ final class MoviesListViewModel: MoviesListViewModelType {
                 self.totalPages = max(self.totalPages, self.currentPage)
                 
                 let cellVMs = self.movies.map { MovieCellViewModel(movie: $0) }
-                if cellVMs.isEmpty {
-                    self.viewState.send(.empty)
-                } else {
-                    self.viewState.send(.populated(cellVMs))
-                }
+                cellVMs.isEmpty ?  self.viewState.send(.populated(cellVMs)) :  self.viewState.send(.populated(cellVMs)) 
             }
             .store(in: &cancellables)
     }

@@ -14,14 +14,13 @@
 
 import UIKit
 import Combine
-
 import UIKit
 import Combine
 
 final class MoviesListViewController: UIViewController {
     
     // MARK: - Outlets
-    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - Properties
     private let viewModel: MoviesListViewModel
@@ -53,25 +52,16 @@ final class MoviesListViewController: UIViewController {
     // MARK: - Setup
     private func setupUI() {
         title = "Movies List"
-        setupCollectionView()
+        setupTableView()
     }
     
-    private func setupCollectionView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(cellType: MovieCollectionViewCell.self)
-        
-        let layout = UICollectionViewFlowLayout()
-        let spacing: CGFloat = 16
-        layout.minimumLineSpacing = spacing
-        layout.minimumInteritemSpacing = spacing
-        collectionView.contentInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
-        collectionView.collectionViewLayout = layout
-        
-        collectionView.addRefresh(action: #selector(refresh))
-        collectionView.register(LoadingFooterView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                withReuseIdentifier: LoadingFooterView.identifier)
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.register(cellType: MovieTableViewCell.self)
+        tableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        tableView.addRefresh(action: #selector(refresh))
     }
     
     private func bindViewModel() {
@@ -82,17 +72,18 @@ final class MoviesListViewController: UIViewController {
                 
                 switch state {
                 case .loading:
-                    self.collectionView.reloadSections(IndexSet(integer: 0))
+                    self.tableView.reloadData()
                 case .populated(let movies):
                     self.movies = movies
-                    self.collectionView.reloadData()
-                    self.collectionView.refreshControl?.endRefreshing()
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
                 case .empty:
                     self.movies.removeAll()
-                    self.collectionView.reloadData()
-                    self.collectionView.refreshControl?.endRefreshing()
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
                 case .error:
-                    self.collectionView.refreshControl?.endRefreshing()
+                    self.tableView.refreshControl?.endRefreshing()
+                    // Show error alert if required
                 }
             }
             .store(in: &cancellables)
@@ -113,16 +104,15 @@ final class MoviesListViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension MoviesListViewController: UICollectionViewDataSource {
+// MARK: - UITableViewDataSource
+extension MoviesListViewController: UITableViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(with: MovieCollectionViewCell.self, for: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(with: MovieTableViewCell.self, for: indexPath)
         let movie = movies[indexPath.row]
         cell.configCell(with: movie)
         cell.favAction = { [weak self] id in
@@ -130,41 +120,14 @@ extension MoviesListViewController: UICollectionViewDataSource {
         }
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionFooter,
-           let footer = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: LoadingFooterView.identifier,
-                for: indexPath) as? LoadingFooterView {
-            
-            if viewModel.viewState.value == .loading {
-                footer.isHidden = false
-                footer.startAnimating()
-            } else {
-                footer.isHidden = true
-                footer.stopAnimating()
-            }
-            
-            return footer
-        }
-        return UICollectionReusableView()
-    }
-
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-extension MoviesListViewController: UICollectionViewDelegateFlowLayout {
+// MARK: - UITableViewDelegate
+extension MoviesListViewController: UITableViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let spacing: CGFloat = 16
-        let totalSpacing = spacing * 3
-        let width = (collectionView.bounds.width - totalSpacing) / 2
-        return CGSize(width: width, height: width * 1.5)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+       
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
