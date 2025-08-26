@@ -11,29 +11,22 @@ import Combine
 final class MoviesRepository: MoviesRepositoryProtocol {
     
     private let remote: MoviesRemoteDataSourceProtocol
-    private let local: MoviesLocalDataSourceProtocol
     
-    init(remote: MoviesRemoteDataSourceProtocol,
-         local: MoviesLocalDataSourceProtocol) {
+    init(remote: MoviesRemoteDataSourceProtocol) {
         self.remote = remote
-        self.local = local
     }
     
-    func fetchMovies(page: Int) -> AnyPublisher<[MovieEntity], AppError> {
+    func fetchMovies(page: Int) -> AnyPublisher<MoviesListEntity, AppError> {
         return remote.fetchMovies(page: page)
-            .mapError { AppError.remote(($0 as NetworkError)) }
-            .map { dto in
-                dto.results.map { movieDTO in
-                    return MovieMapper.map(movieDTO)
-                }
-            }
+            .map { MoviesMapper.map($0) }                
+            .mapError { AppError.remote($0) }
             .eraseToAnyPublisher()
     }
     
-    // MARK: - TODO: Implement saving favorite status to local data source
     func setMovieFavStatus(movieId: Int, isFavourite: Bool) -> AnyPublisher<Void, AppError> {
+        // TODO: implement local update
         return Fail(error: AppError.local(.updateError))
             .eraseToAnyPublisher()
     }
- 
 }
+

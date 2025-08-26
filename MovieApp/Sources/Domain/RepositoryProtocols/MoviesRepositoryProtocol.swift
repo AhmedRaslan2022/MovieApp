@@ -8,7 +8,7 @@
 import Combine
 
 protocol MoviesRepositoryProtocol {
-    func fetchMovies(page: Int) -> AnyPublisher<[MovieEntity], AppError>
+    func fetchMovies(page: Int) -> AnyPublisher<MoviesListEntity, AppError>
     func setMovieFavStatus(movieId: Int, isFavourite: Bool) -> AnyPublisher<Void, AppError>
 }
 
