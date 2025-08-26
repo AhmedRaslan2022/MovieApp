@@ -9,10 +9,9 @@ struct MovieEntity: Equatable {
     let id: Int
     let poster: String
     let name: String
-    let rating: String
+    let rating: Double
     let releaseDate: String
     var isFavourite: Bool = false
     let overview: String
-    let voteAverage: String
     let language: String
 }

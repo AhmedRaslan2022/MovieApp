@@ -10,7 +10,7 @@ import Combine
 
 
 protocol UpdateFavouriteUseCaseProtocol {
-    func execute(for movie: MovieEntity, isFavourite: Bool) -> AnyPublisher<MovieEntity, Error>
+    func execute(movieID: Int, isFavourite: Bool) -> AnyPublisher<Void, AppError>
 }
 
 final class UpdateFavouriteUseCase: UpdateFavouriteUseCaseProtocol {
@@ -20,8 +20,8 @@ final class UpdateFavouriteUseCase: UpdateFavouriteUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute(for movie: MovieEntity, isFavourite: Bool) -> AnyPublisher<MovieEntity, Error> {
-        repository.setMovieFavStatus(movieId: movie.id, isFavourite: isFavourite)
+    func execute(movieID: Int, isFavourite: Bool) -> AnyPublisher<Void, AppError> {
+        repository.setMovieFavStatus(movieId: movieID, isFavourite: isFavourite)
     }
 }
  
