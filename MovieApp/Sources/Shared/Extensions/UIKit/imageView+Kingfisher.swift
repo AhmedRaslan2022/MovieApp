@@ -11,16 +11,12 @@ import Kingfisher
 extension UIImageView {
     func setWith(_ stringURL: String?) {
         self.kf.indicatorType = .activity
-        let placeholder = UIImage(named: "logo")
         guard let stringURL, let url = URL(string: stringURL) else {
-            self.image = UIImage(named: "logo")
-            return
+             return
         }
         self.kf.setImage(
             with: url,
-            placeholder: placeholder,
             options: [
-                .onFailureImage(placeholder),
                 .transition(.fade(0.4)),
                 .processor(DownsamplingImageProcessor(size: .init(width: 100, height: 100))),
                 .scaleFactor(UIScreen.main.scale),
