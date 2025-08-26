@@ -20,7 +20,11 @@ public protocol Endpoint {
 
 public extension Endpoint {
     var urlRequest: URLRequest? {
-        guard let url = URL(string: baseURL + path) else { return nil }
+        guard var components = URLComponents(string: baseURL + path) else { return nil }
+        components.queryItems = queryItems
+        
+        guard let url = components.url else { return nil }
+        
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
