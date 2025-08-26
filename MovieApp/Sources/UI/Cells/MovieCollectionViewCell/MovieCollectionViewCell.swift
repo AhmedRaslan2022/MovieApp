@@ -24,6 +24,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         movieImageView.layer.cornerRadius = 8.0
+        movieImageView.clipsToBounds = true
         containerView.applyDefaultStyle()
     }
 
@@ -46,6 +47,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         movieReleaseDateLabel.text = movie.releaseDate
         favButton.isSelected = movie.isFavourite
         favButton.tintColor = movie.isFavourite ? .red : .gray
+     
     }
     
     

@@ -12,7 +12,7 @@ import UIKit
 extension UIView {
     
     func applyDefaultStyle(
-        cornerRadius: CGFloat = 12,
+        cornerRadius: CGFloat = 8,
         shadowColor: UIColor = .shadow,
         shadowOpacity: Float = 1,
         shadowOffset: CGSize = .init(width: 0, height: 2),
