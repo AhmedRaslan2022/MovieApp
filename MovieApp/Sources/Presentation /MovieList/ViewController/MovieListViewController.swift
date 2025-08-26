@@ -21,13 +21,13 @@ final class MoviesListViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
     // MARK: - Properties
-    private let viewModel: MovieListViewModel
+    private let viewModel: MoviesListViewModel
     private var cancellables = Set<AnyCancellable>()
     private var movies: [MovieCellViewModel] = []
     private var isLoadingFooter = false
     
     // MARK: - Init
-    init(viewModel: MovieListViewModel) {
+    init(viewModel: MoviesListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: "MoviesListViewController", bundle: nil)
     }

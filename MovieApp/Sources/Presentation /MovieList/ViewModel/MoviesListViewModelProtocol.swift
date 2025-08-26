@@ -1,5 +1,5 @@
 //
-//  MovieListViewModelProtocol.swift
+//  MoviesListViewModelProtocol.swift
 //  MovieApp
 //
 //  Created by Rasslan on 26/08/2025.
@@ -10,35 +10,36 @@ import Combine
 
 ///MovieList Input & Output
 ///
-typealias MovieListViewModelType = MovieListViewModelInput & MovieListViewModelOutput &
-MovieListViewModelActions
+typealias MoviesListViewModelType = MoviesListViewModelInput & MoviesListViewModelOutput &
+MoviesListViewModelActions
 
 ///MovieList ViewModel Input
 ///
 ///
 @MainActor
-protocol MovieListViewModelInput {
+protocol MoviesListViewModelInput {
     func viewDidLoad()
 }
 
 ///MovieList ViewModel Output
 ///
 @MainActor
-protocol MovieListViewModelOutput {
-    var viewState: PassthroughSubject<MovieListViewState, Never> {get}
+protocol MoviesListViewModelOutput {
+    var viewState: PassthroughSubject<MoviesListViewState, Never> {get}
  }
 
 
 ///MovieListViewModelActions
 ///
 @MainActor
-protocol MovieListViewModelActions {
+protocol MoviesListViewModelActions {
     func refresh()
     func favWasPressed(movieId: Int)
+    func navigateToMovieDetails(movieId: Int)
 }
 
 
-enum MovieListViewState {
+enum MoviesListViewState {
     case loading
     case error(String)
     case populated([MovieCellViewModel])

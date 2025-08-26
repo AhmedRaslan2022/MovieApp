@@ -5,7 +5,7 @@
 //  Created by Rasslan on 26/08/2025.
 //
 
-struct MovieEntity: Equatable {
+public struct MovieEntity: Equatable {
     let id: Int
     let poster: String
     let name: String

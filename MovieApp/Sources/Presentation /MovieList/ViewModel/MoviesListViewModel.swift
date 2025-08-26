@@ -8,21 +8,24 @@
 import Foundation
 import Combine
 
-// MARK: MovieListViewModel
+// MARK: MoviesListViewModel
 @MainActor
-final class MovieListViewModel: MovieListViewModelType {
-  
-    let  viewState =  PassthroughSubject<MovieListViewState, Never>()
+final class MoviesListViewModel: MoviesListViewModelType {
+   
+    let  viewState =  PassthroughSubject<MoviesListViewState, Never>()
     private var movies: [MovieEntity] = []
     private let fetchMoviesUseCase: FetchMoviesUseCaseProtocol
+    private let coordinator: MoviesCoordinatorProtocol
     private var currentPage = 1
     private var canLoadMorePages = true
     private var cancellables = Set<AnyCancellable>()
 
      init(
+        coordinator: MoviesCoordinatorProtocol,
         fetchMoviesUseCase: FetchMoviesUseCaseProtocol
     ) {
-          self.fetchMoviesUseCase = fetchMoviesUseCase
+        self.fetchMoviesUseCase = fetchMoviesUseCase
+        self.coordinator = coordinator
     }
     
     func viewDidLoad() {
@@ -47,11 +50,16 @@ final class MovieListViewModel: MovieListViewModelType {
         
     }
     
+    func navigateToMovieDetails(movieId: Int) {
+        guard let movie = movies.first(where: {$0.id == movieId}) else {return}
+        coordinator.navigate(to: .movieDetails(movie: movie))
+    }
     
+  
 }
  
 
-private extension MovieListViewModel {
+private extension MoviesListViewModel {
     
     private func loadMovies(page: Int = 1) {
         guard canLoadMorePages else {return}

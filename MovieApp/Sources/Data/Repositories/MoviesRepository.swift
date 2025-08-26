@@ -11,12 +11,9 @@ import Combine
 final class MoviesRepository: MoviesRepositoryProtocol {
     
     private let remote: MoviesRemoteDataSourceProtocol
-    private let local: MoviesLocalDataSourceProtocol
     
-    init(remote: MoviesRemoteDataSourceProtocol,
-         local: MoviesLocalDataSourceProtocol) {
+    init(remote: MoviesRemoteDataSourceProtocol) {
         self.remote = remote
-        self.local = local
     }
     
     func fetchMovies(page: Int) -> AnyPublisher<[MovieEntity], AppError> {
