@@ -29,7 +29,8 @@ final class MoviesRemoteDataSource: MoviesRemoteDataSourceProtocol {
             method: .get,
             queryItems: [
                 URLQueryItem(name: "language", value: "en-US"),
-                URLQueryItem(name: "page", value: "\(page)")
+                URLQueryItem(name: "page", value: "\(page)"),
+                URLQueryItem(name: "include_adult", value: "\(false)")
             ]
         )
         return executor.execute(endpoint)
