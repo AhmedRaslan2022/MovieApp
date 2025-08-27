@@ -45,11 +45,11 @@ final class MoviesListViewController: UIViewController {
         setupUI()
         bindViewModel()
         bindScroll()
+        viewModel.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.viewDidLoad()
 
     }
     

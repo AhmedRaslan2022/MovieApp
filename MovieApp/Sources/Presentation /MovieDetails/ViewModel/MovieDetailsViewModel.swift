@@ -63,8 +63,16 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
             } receiveValue: { [weak self] _ in
                 guard let self = self else { return }
                 viewState.send(.favIsUpdated)
+                var updatedMovie = movie
+                updatedMovie.isFavourite.toggle()
+                NotificationCenter.default.post(
+                    name: .movieUpdated,
+                    object: nil,
+                    userInfo: ["updatedMovie": updatedMovie]
+                )
             }
             .store(in: &cancellables)
     }
     
 }
+ 

@@ -47,7 +47,26 @@ final class MoviesListViewModel: MoviesListViewModelType {
         self.favMovieUseCase = favMovieUseCase
         
         bindInput()
+        observeMovieUpdates()
     }
+    
+    private func observeMovieUpdates() {
+            NotificationCenter.default.publisher(for: .movieUpdated)
+                .compactMap { $0.userInfo?["updatedMovie"] as? MovieEntity }
+                .sink { [weak self] updated in
+                    self?.handleMovieUpdate(updated)
+                }
+                .store(in: &cancellables)
+        }
+
+        private func handleMovieUpdate(_ updated: MovieEntity) {
+            if let index = movies.firstIndex(where: { $0.id == updated.id }) {
+                movies[index].isFavourite = updated.isFavourite
+                let cellVMs = self.movies.map { MovieCellViewModel(movie: $0) }
+                viewState.send(.populated(cellVMs))
+            }
+        }
+
     
     func viewDidLoad() {
         inputSubject.send(.refresh)
