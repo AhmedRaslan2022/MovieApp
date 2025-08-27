@@ -21,14 +21,14 @@ enum MoviesMapper {
         MovieEntity(
             id: dto.id,
             poster: buildImageURL(from: dto.posterPath),
-            name: dto.title,
-            rating: dto.voteAverage,
-            releaseDate: dto.releaseDate,
+            name: dto.title ?? "",
+            rating: dto.voteAverage ?? 0.0,
+            releaseDate: dto.releaseDate ?? "",
             isFavourite: false,
-            overview: dto.overview,
-            language: dto.originalLanguage,
+            overview: dto.overview ?? "",
+            language: dto.originalLanguage ?? "",
             backgroundImage: buildImageURL(from: dto.backdropPath),
-            voters: dto.voteCount
+            voters: dto.voteCount ?? 0
         )
     }
     
