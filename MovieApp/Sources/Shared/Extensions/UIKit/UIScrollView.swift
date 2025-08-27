@@ -10,13 +10,13 @@ import UIKit
 extension UIScrollView {
     func addRefresh(action: Selector) {
         let refreshControl = UIRefreshControl()
-        refreshControl.tintColor =  .white
+        refreshControl.tintColor =  .systemBrown
         refreshControl.addTarget(nil, action: action, for: .valueChanged)
         self.refreshControl = refreshControl
-        self.refreshControl?.tintColor =  .white
+        self.refreshControl?.tintColor =  .systemBrown
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Reloading...", attributes: [
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14),
-            NSAttributedString.Key.foregroundColor : UIColor.white
+            NSAttributedString.Key.foregroundColor : UIColor.systemBrown
         ])
     }
 }

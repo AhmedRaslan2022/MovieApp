@@ -33,7 +33,7 @@ protocol MovieDetailsViewModelOutput {
 ///
 @MainActor
 protocol MovieDetailsViewModelActions {
-     func favWasPressed(movieId: Int)
+    func favWasPressed(movieId: Int, isFavourite: Bool)
 }
 
 
@@ -41,6 +41,7 @@ enum MovieDetailsViewState : Equatable{
     case loading
     case error(String)
     case populated(MovieDetailsState)
+    case favIsUpdated
     
     
     static func == (lhs: MovieDetailsViewState, rhs: MovieDetailsViewState) -> Bool {
@@ -51,6 +52,10 @@ enum MovieDetailsViewState : Equatable{
                return lMsg == rMsg
            case let (.populated(lMovies), .populated(rMovies)):
                return lMovies == rMovies
+               
+           case (.favIsUpdated, .favIsUpdated):
+               return true
+
            default:
                return false
            }
@@ -59,12 +64,13 @@ enum MovieDetailsViewState : Equatable{
 
 
 struct MovieDetailsState: Equatable {
+    let id: Int
     let posterURL: String
     let backgroundUrl: String
     let title: String
     let ratingText: String
     let releaseDate: String
-    let isFavorite: Bool
+    var isFavorite: Bool
     let overview: String
     let language: String
     let voters: String

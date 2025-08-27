@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788.4" systemVersion="24G84" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Movie" representedClassName="Movie" syncable="YES">
+        <attribute name="backgroundImage" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isFavourite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="poster" optional="YES" attributeType="String"/>
+        <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="releaseDate" optional="YES" attributeType="String"/>
+        <attribute name="voters" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="page" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MoviesPage" inverseName="movies" inverseEntity="MoviesPage"/>
+    </entity>
+    <entity name="MoviesPage" representedClassName="MoviesPage" syncable="YES">
+        <attribute name="page" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalPages" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Movie" inverseName="page" inverseEntity="Movie"/>
+    </entity>
 </model>

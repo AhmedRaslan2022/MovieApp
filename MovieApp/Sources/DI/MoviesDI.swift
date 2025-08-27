@@ -25,13 +25,15 @@ final class MoviesDIContainer: MoviesDependencies {
         return MoviesRemoteDataSource(executor: networkExecutor)
     }
     
-    
+    func makeLocalDataSource() -> MoviesLocalDataSourceProtocol {
+        return MoviesLocalDataSource()
+    }
     
     // MARK: - Repository
     
     func makeRepository() -> MoviesRepositoryProtocol {
         return MoviesRepository(
-            remote: makeRemoteDataSource())
+            remote: makeRemoteDataSource(), local: makeLocalDataSource())
     }
     
     // MARK: - Use Cases
@@ -49,13 +51,17 @@ final class MoviesDIContainer: MoviesDependencies {
     // MARK: - ViewControllers
     
     func makeMoviesListViewController(coordinator: any MoviesCoordinatorProtocol) -> MoviesListViewController {
-        let vm = MoviesListViewModel(coordinator: coordinator, fetchMoviesUseCase: makeFetchMoviesUseCase())
+        let vm = MoviesListViewModel(
+            coordinator: coordinator,
+            fetchMoviesUseCase: makeFetchMoviesUseCase(),
+            favMovieUseCase: makeSetFavouriteUseCase()
+        )
         let vc = MoviesListViewController(viewModel: vm)
         return vc
     }
     
     func makeMovieDetailsViewController(movie: MovieEntity) -> MovieDetailsViewController {
-        let vm = MovieDetailsViewModel(movie: movie)
+        let vm = MovieDetailsViewModel(movie: movie, favMovieUseCase: makeSetFavouriteUseCase())
         let vc = MovieDetailsViewController(viewModel: vm)
         return vc
     }
