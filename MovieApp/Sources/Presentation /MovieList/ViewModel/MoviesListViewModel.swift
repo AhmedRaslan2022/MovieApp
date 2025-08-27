@@ -11,6 +11,7 @@ import Combine
 // MARK: MoviesListViewModel
 @MainActor
 final class MoviesListViewModel: MoviesListViewModelType {
+   
  
     
     enum Input {
@@ -22,6 +23,7 @@ final class MoviesListViewModel: MoviesListViewModelType {
     
     private var movies: [MovieEntity] = []
     private let fetchMoviesUseCase: FetchMoviesUseCaseProtocol
+    private let favMovieUseCase: UpdateFavouriteUseCaseProtocol
     private let coordinator: MoviesCoordinatorProtocol
     
     // Pagination
@@ -35,10 +37,14 @@ final class MoviesListViewModel: MoviesListViewModelType {
     private var cancellables = Set<AnyCancellable>()
 
     
-    init(coordinator: MoviesCoordinatorProtocol,
-         fetchMoviesUseCase: FetchMoviesUseCaseProtocol) {
+    init(
+         coordinator: MoviesCoordinatorProtocol,
+         fetchMoviesUseCase: FetchMoviesUseCaseProtocol,
+         favMovieUseCase: UpdateFavouriteUseCaseProtocol
+    ) {
         self.coordinator = coordinator
         self.fetchMoviesUseCase = fetchMoviesUseCase
+        self.favMovieUseCase = favMovieUseCase
         
         bindInput()
     }
@@ -55,7 +61,26 @@ final class MoviesListViewModel: MoviesListViewModelType {
         inputSubject.send(.loadNextPage)
     }
     
-    func favWasPressed(movieId: Int) {}
+    func favWasPressed(movieId: Int, isFavourite: Bool) {
+           favMovieUseCase.execute(movieID: movieId, isFavourite: isFavourite)
+               .receive(on: DispatchQueue.main)
+               .sink { [weak self] completion in
+                   guard let self = self else { return }
+                   if case .failure(let error) = completion {
+                       self.viewState.send(.error(error.localizedDescription))
+                   }
+               } receiveValue: { [weak self] _ in
+                   guard let self = self else { return }
+                   if let index = self.movies.firstIndex(where: { $0.id == movieId }) {
+                       self.movies[index].isFavourite.toggle()
+                       let cellVMs = self.movies.map { MovieCellViewModel(movie: $0) }
+                       self.viewState.send(.populated(cellVMs))
+                   } else {
+                       self.viewState.send(.error("Movie not found"))
+                   }
+               }
+               .store(in: &cancellables)
+       }
     
     func navigateToMovieDetails(movieId: Int) {
         guard let movie = movies.first(where: { $0.id == movieId }) else { return }

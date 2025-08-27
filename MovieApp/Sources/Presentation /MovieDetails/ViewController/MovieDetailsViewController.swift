@@ -22,6 +22,7 @@ final class MovieDetailsViewController: UIViewController {
   @IBOutlet private weak var infoStack: UIStackView!
 
     private let viewModel: MovieDetailsViewModelType
+    private var stateModel: MovieDetailsState?
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: MovieDetailsViewModelType) {
@@ -41,7 +42,8 @@ final class MovieDetailsViewController: UIViewController {
     }
     
     @IBAction private func addToFavoritesWasPressed(_ sender: Any) {
-        
+        guard let stateModel = stateModel else {return}
+        viewModel.favWasPressed(movieId: stateModel.id, isFavourite: !stateModel.isFavorite)
     }
 }
 
@@ -74,10 +76,15 @@ private extension MovieDetailsViewController {
             print("Error: \(message)")
         case .populated(let model):
             configureUI(with: model)
+        case .favIsUpdated:
+            stateModel?.isFavorite.toggle()
+            favButton.isSelected.toggle()
+            favButton.tintColor = favButton.isSelected ?  .red : .white
         }
     }
     
     func configureUI(with model: MovieDetailsState) {
+        stateModel = model
         posterImageView.setWith(model.posterURL)
         backgroundImageView.setWith(model.backgroundUrl)
         nameLabel.text = model.title

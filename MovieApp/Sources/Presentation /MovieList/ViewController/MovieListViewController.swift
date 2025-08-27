@@ -14,8 +14,7 @@
 
 import UIKit
 import Combine
-import UIKit
-import Combine
+ 
 
 final class MoviesListViewController: UIViewController {
     
@@ -23,7 +22,7 @@ final class MoviesListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - Properties
-    private let viewModel: MoviesListViewModel
+    private let viewModel: MoviesListViewModelType
     private var cancellables = Set<AnyCancellable>()
     private var movies: [MovieCellViewModel] = []
     
@@ -31,7 +30,7 @@ final class MoviesListViewController: UIViewController {
     private let scrollSubject = PassthroughSubject<Void, Never>()
     
     // MARK: - Init
-    init(viewModel: MoviesListViewModel) {
+    init(viewModel: MoviesListViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: "MoviesListViewController", bundle: nil)
     }
@@ -46,7 +45,12 @@ final class MoviesListViewController: UIViewController {
         setupUI()
         bindViewModel()
         bindScroll()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.viewDidLoad()
+
     }
     
     // MARK: - Setup
@@ -83,7 +87,6 @@ final class MoviesListViewController: UIViewController {
                     self.tableView.refreshControl?.endRefreshing()
                 case .error:
                     self.tableView.refreshControl?.endRefreshing()
-                    // Show error alert if required
                 }
             }
             .store(in: &cancellables)
@@ -116,7 +119,7 @@ extension MoviesListViewController: UITableViewDataSource {
         let movie = movies[indexPath.row]
         cell.configCell(with: movie)
         cell.favAction = { [weak self] id in
-            self?.viewModel.favWasPressed(movieId: id)
+            self?.viewModel.favWasPressed(movieId: id, isFavourite: !movie.isFavourite)
         }
         return cell
     }

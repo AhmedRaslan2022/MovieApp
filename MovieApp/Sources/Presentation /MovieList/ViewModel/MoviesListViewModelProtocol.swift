@@ -34,8 +34,9 @@ protocol MoviesListViewModelOutput {
 @MainActor
 protocol MoviesListViewModelActions {
     func refresh()
-    func favWasPressed(movieId: Int)
+    func favWasPressed(movieId: Int, isFavourite: Bool)
     func navigateToMovieDetails(movieId: Int)
+    func loadNextPage()
 }
 
 
@@ -54,6 +55,7 @@ enum MoviesListViewState : Equatable{
                return lMsg == rMsg
            case let (.populated(lMovies), .populated(rMovies)):
                return lMovies == rMovies
+          
            default:
                return false
            }
