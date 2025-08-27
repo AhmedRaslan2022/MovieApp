@@ -22,6 +22,6 @@ public struct MovieEntity: Equatable {
     var isFavourite: Bool = false
     let overview: String
     let language: String
-    let backGroundImage: String
+    let backgroundImage: String
     let voters: Int
 }

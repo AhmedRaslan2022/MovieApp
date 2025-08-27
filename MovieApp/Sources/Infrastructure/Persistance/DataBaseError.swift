@@ -12,6 +12,7 @@ public enum DataBaseError: LocalizedError {
     case fetchError
     case deleteError
     case updateError
+    case notFound
 
    public var errorDescription: String? {
         switch self {
@@ -19,6 +20,8 @@ public enum DataBaseError: LocalizedError {
         case .fetchError: return "fetchError"
         case .deleteError: return "deleteError"
         case .updateError: return "updateError"
+        case .notFound: return "NotFoundError"
+
         }
     }
 }
