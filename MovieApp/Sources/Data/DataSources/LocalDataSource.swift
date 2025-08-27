@@ -15,21 +15,6 @@ protocol MoviesLocalDataSourceProtocol {
     func setMovieFavStatus(movieId: Int, isFavourite: Bool) -> AnyPublisher<Void, AppError>
 }
 
-enum Log {
-    static func info(_ message: String) {
-        print("ℹ️ [INFO] \(message)")
-    }
-    
-    static func error(_ message: String) {
-        print("❌ [ERROR] \(message)")
-    }
-    
-    static func success(_ message: String) {
-        print("✅ [SUCCESS] \(message)")
-    }
-}
-
-
 
 
 final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
@@ -42,7 +27,7 @@ final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
     func fetchMovies(page: Int) -> AnyPublisher<MoviesListEntity, AppError> {
         Future<MoviesListEntity, AppError> { promise in
             self.context.perform {
-                Log.info("Fetching movies for page \(page)")
+                CoreDataLogger.info("Fetching movies for page \(page)")
                 
                 let fetchRequest: NSFetchRequest<MoviesPage> = MoviesPage.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "page == %d", page)
@@ -50,7 +35,7 @@ final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
                 do {
                     if let pageEntity = try self.context.fetch(fetchRequest).first,
                        let orderedMovies = pageEntity.movies?.array as? [Movie] {
-                        Log.success("Fetched \(orderedMovies.count) movies from cache (page \(page))")
+                        CoreDataLogger.success("Fetched \(orderedMovies.count) movies from cache (page \(page))")
                         
                         let movieEntities = orderedMovies.map { movie in
                             MovieEntity(
@@ -73,11 +58,11 @@ final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
                         )
                         promise(.success(listEntity))
                     } else {
-                        Log.error("No cached movies found for page \(page)")
+                        CoreDataLogger.error("No cached movies found for page \(page)")
                         promise(.failure(.local(.notFound)))
                     }
                 } catch {
-                    Log.error("Failed to fetch cached movies for page \(page): \(error)")
+                    CoreDataLogger.error("Failed to fetch cached movies for page \(page): \(error)")
                     promise(.failure(.local(.fetchError)))
                 }
             }
@@ -88,14 +73,14 @@ final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
     func saveMovies(_ entity: MoviesListEntity) -> AnyPublisher<Void, AppError> {
         Future<Void, AppError> { promise in
             self.context.perform {
-                Log.info("Saving \(entity.movies.count) movies for page \(entity.page)")
+                CoreDataLogger.info("Saving \(entity.movies.count) movies for page \(entity.page)")
                 
                 let fetchRequest: NSFetchRequest<MoviesPage> = MoviesPage.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "page == %d", entity.page)
                 
                 do {
                     if let existingPage = try self.context.fetch(fetchRequest).first {
-                        Log.info("Deleting old cache for page \(entity.page)")
+                        CoreDataLogger.info("Deleting old cache for page \(entity.page)")
                         self.context.delete(existingPage)
                     }
 
@@ -119,10 +104,10 @@ final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
                     }
 
                     try self.context.save()
-                    Log.success("Successfully saved \(entity.movies.count) movies for page \(entity.page)")
+                    CoreDataLogger.success("Successfully saved \(entity.movies.count) movies for page \(entity.page)")
                     promise(.success(()))
                 } catch {
-                    Log.error("Failed to save movies for page \(entity.page): \(error)")
+                    CoreDataLogger.error("Failed to save movies for page \(entity.page): \(error)")
                     promise(.failure(.local(.savingError)))
                 }
             }
@@ -133,7 +118,7 @@ final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
     func setMovieFavStatus(movieId: Int, isFavourite: Bool) -> AnyPublisher<Void, AppError> {
         Future<Void, AppError> { promise in
             self.context.perform {
-                Log.info("Updating favourite status for movieId=\(movieId) → \(isFavourite)")
+                CoreDataLogger.info("Updating favourite status for movieId=\(movieId) → \(isFavourite)")
                 
                 let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "id == %lld", Int64(movieId))
@@ -142,14 +127,14 @@ final class MoviesLocalDataSource: MoviesLocalDataSourceProtocol {
                     if let movie = try self.context.fetch(fetchRequest).first {
                         movie.isFavourite = isFavourite
                         try self.context.save()
-                        Log.success("Favourite status updated for movieId=\(movieId)")
+                        CoreDataLogger.success("Favourite status updated for movieId=\(movieId)")
                         promise(.success(()))
                     } else {
-                        Log.error("Movie not found in cache (id=\(movieId))")
+                        CoreDataLogger.error("Movie not found in cache (id=\(movieId))")
                         promise(.failure(.local(.notFound)))
                     }
                 } catch {
-                    Log.error("Failed to update favourite for movieId=\(movieId): \(error)")
+                    CoreDataLogger.error("Failed to update favourite for movieId=\(movieId): \(error)")
                     promise(.failure(.local(.updateError)))
                 }
             }
