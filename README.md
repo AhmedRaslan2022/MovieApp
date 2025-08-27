@@ -84,7 +84,7 @@ The app leverages **Core Data** for a seamless offline-first experience:
 - **Favorites**: Mark/unmark movies as favorites, persisted locally.
 - **Offline Support**: Core Data caching ensures functionality without network.
 - **Reactive UI**: Combine-driven, enum-based state management for responsive interfaces.
-
+- **Dark Mode Support**: Fully adaptive UI that seamlessly supports both light and dark appearances.
 ---
 
 ## 🛠️ Getting Started
