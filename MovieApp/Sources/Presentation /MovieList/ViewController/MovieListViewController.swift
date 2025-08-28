@@ -76,16 +76,19 @@ final class MoviesListViewController: UIViewController {
                 
                 switch state {
                 case .loading:
-                    self.tableView.reloadData()
+                    self.showLoadingView()
                 case .populated(let movies):
+                    self.hideLoadingView()
                     self.movies = movies
                     self.tableView.reloadData()
                     self.tableView.refreshControl?.endRefreshing()
                 case .empty:
+                    self.hideLoadingView()
                     self.movies.removeAll()
                     self.tableView.reloadData()
                     self.tableView.refreshControl?.endRefreshing()
                 case .error:
+                    self.hideLoadingView()
                     self.tableView.refreshControl?.endRefreshing()
                 }
             }

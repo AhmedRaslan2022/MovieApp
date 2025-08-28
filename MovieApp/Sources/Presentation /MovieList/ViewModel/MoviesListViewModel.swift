@@ -81,7 +81,8 @@ final class MoviesListViewModel: MoviesListViewModelType {
     }
     
     func favWasPressed(movieId: Int, isFavourite: Bool) {
-           favMovieUseCase.execute(movieID: movieId, isFavourite: isFavourite)
+
+        favMovieUseCase.execute(movieID: movieId, isFavourite: isFavourite)
                .receive(on: DispatchQueue.main)
                .sink { [weak self] completion in
                    guard let self = self else { return }
@@ -141,7 +142,10 @@ final class MoviesListViewModel: MoviesListViewModelType {
     }
     
     private func fetch(page: Int) -> AnyPublisher<[MovieEntity], Never> {
-        fetchMoviesUseCase.execute(page: page)
+        
+        viewState.send(.loading)
+        
+        return fetchMoviesUseCase.execute(page: page)
             .map { $0.movies }
             .catch { [weak self] error -> Just<[MovieEntity]> in
                 self?.viewState.send(.error(error.localizedDescription))
