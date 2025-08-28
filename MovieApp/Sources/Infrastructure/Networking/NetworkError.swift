@@ -14,7 +14,7 @@ public enum NetworkError: Error {
     case serverError(Int)
     case unknown(Error)
     
-    var errorDescription: String? {
+public  var errorDescription: String? {
         switch self {
         case .invalidURL: return "Invalid URL"
         case .decodingError(let error): return "Data parsing error: \(error.localizedDescription)"

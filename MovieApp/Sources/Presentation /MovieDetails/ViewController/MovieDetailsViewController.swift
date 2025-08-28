@@ -71,12 +71,16 @@ private extension MovieDetailsViewController {
     func handleViewState(_ state: MovieDetailsViewState) {
         switch state {
         case .loading:
-            break
+            showLoadingView()
         case .error(let message):
-            print("Error: \(message)")
+            hideLoadingView()
+                
         case .populated(let model):
+            hideLoadingView()
             configureUI(with: model)
+                
         case .favIsUpdated:
+            hideLoadingView()
             stateModel?.isFavorite.toggle()
             favButton.isSelected.toggle()
             favButton.tintColor = favButton.isSelected ?  .red : .white

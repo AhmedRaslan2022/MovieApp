@@ -17,6 +17,7 @@ final class MoviesListViewModel: MoviesListViewModelType {
     enum Input {
         case loadNextPage
         case refresh
+        case retry
     }
     
     let viewState = CurrentValueSubject<MoviesListViewState, Never>(.loading)
@@ -76,12 +77,17 @@ final class MoviesListViewModel: MoviesListViewModelType {
         inputSubject.send(.refresh)
     }
     
+    func retry() {
+        inputSubject.send(.retry)
+    }
+    
     func loadNextPage() {
         inputSubject.send(.loadNextPage)
     }
     
     func favWasPressed(movieId: Int, isFavourite: Bool) {
-           favMovieUseCase.execute(movieID: movieId, isFavourite: isFavourite)
+
+        favMovieUseCase.execute(movieID: movieId, isFavourite: isFavourite)
                .receive(on: DispatchQueue.main)
                .sink { [weak self] completion in
                    guard let self = self else { return }
@@ -125,13 +131,21 @@ final class MoviesListViewModel: MoviesListViewModelType {
                     guard self.currentPage <= self.totalPages else { return Just([]).eraseToAnyPublisher() }
                     self.viewState.send(.loading)
                     return self.fetch(page: self.currentPage)
+                        
+                    case .retry:
+                        guard self.currentPage <= self.totalPages else { return Just([]).eraseToAnyPublisher() }
+                        self.viewState.send(.loading)
+                        return self.fetch(page: self.currentPage)
                 }
             }
             .sink { [weak self] newMovies in
                 guard let self = self else { return }
                 
-                self.movies.append(contentsOf: newMovies)
-                self.currentPage += 1
+                if !newMovies.isEmpty {
+                       self.movies.append(contentsOf: newMovies)
+                       self.currentPage += 1
+                   }
+                
                 self.totalPages = max(self.totalPages, self.currentPage)
                 
                 let cellVMs = self.movies.map { MovieCellViewModel(movie: $0) }
@@ -141,7 +155,10 @@ final class MoviesListViewModel: MoviesListViewModelType {
     }
     
     private func fetch(page: Int) -> AnyPublisher<[MovieEntity], Never> {
-        fetchMoviesUseCase.execute(page: page)
+        
+        viewState.send(.loading)
+        
+        return fetchMoviesUseCase.execute(page: page)
             .map { $0.movies }
             .catch { [weak self] error -> Just<[MovieEntity]> in
                 self?.viewState.send(.error(error.localizedDescription))
