@@ -77,19 +77,25 @@ final class MoviesListViewController: UIViewController {
                 switch state {
                 case .loading:
                     self.showLoadingView()
+                    self.tableView.refreshControl?.endRefreshing()
+                    self.hideErrorView()
                 case .populated(let movies):
                     self.hideLoadingView()
+                    self.tableView.refreshControl?.endRefreshing()
                     self.movies = movies
                     self.tableView.reloadData()
-                    self.tableView.refreshControl?.endRefreshing()
                 case .empty:
                     self.hideLoadingView()
+                    self.tableView.refreshControl?.endRefreshing()
                     self.movies.removeAll()
                     self.tableView.reloadData()
-                    self.tableView.refreshControl?.endRefreshing()
-                case .error:
+                case .error(let message):
                     self.hideLoadingView()
                     self.tableView.refreshControl?.endRefreshing()
+                        self.showErrorView(message: message) { [weak self] in
+                            self?.hideErrorView()
+                            self?.viewModel.retry()
+                        }
                 }
             }
             .store(in: &cancellables)

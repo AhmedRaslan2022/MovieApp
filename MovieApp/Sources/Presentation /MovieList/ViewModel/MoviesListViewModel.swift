@@ -17,6 +17,7 @@ final class MoviesListViewModel: MoviesListViewModelType {
     enum Input {
         case loadNextPage
         case refresh
+        case retry
     }
     
     let viewState = CurrentValueSubject<MoviesListViewState, Never>(.loading)
@@ -76,6 +77,10 @@ final class MoviesListViewModel: MoviesListViewModelType {
         inputSubject.send(.refresh)
     }
     
+    func retry() {
+        inputSubject.send(.retry)
+    }
+    
     func loadNextPage() {
         inputSubject.send(.loadNextPage)
     }
@@ -126,13 +131,21 @@ final class MoviesListViewModel: MoviesListViewModelType {
                     guard self.currentPage <= self.totalPages else { return Just([]).eraseToAnyPublisher() }
                     self.viewState.send(.loading)
                     return self.fetch(page: self.currentPage)
+                        
+                    case .retry:
+                        guard self.currentPage <= self.totalPages else { return Just([]).eraseToAnyPublisher() }
+                        self.viewState.send(.loading)
+                        return self.fetch(page: self.currentPage)
                 }
             }
             .sink { [weak self] newMovies in
                 guard let self = self else { return }
                 
-                self.movies.append(contentsOf: newMovies)
-                self.currentPage += 1
+                if !newMovies.isEmpty {
+                       self.movies.append(contentsOf: newMovies)
+                       self.currentPage += 1
+                   }
+                
                 self.totalPages = max(self.totalPages, self.currentPage)
                 
                 let cellVMs = self.movies.map { MovieCellViewModel(movie: $0) }

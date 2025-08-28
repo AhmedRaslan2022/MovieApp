@@ -37,6 +37,7 @@ protocol MoviesListViewModelActions {
     func favWasPressed(movieId: Int, isFavourite: Bool)
     func navigateToMovieDetails(movieId: Int)
     func loadNextPage()
+    func retry()
 }
 
 
