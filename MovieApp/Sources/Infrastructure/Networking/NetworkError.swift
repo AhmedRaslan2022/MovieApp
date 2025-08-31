@@ -24,3 +24,20 @@ public  var errorDescription: String? {
     }
     
 }
+
+extension NetworkError: Equatable {
+    public static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        switch (lhs, rhs) {
+        case (.invalidURL, .invalidURL):
+            return true
+        case (.serverError(let lcode), .serverError(let rcode)):
+            return lcode == rcode
+        case (.decodingError, .decodingError):
+            return true
+        case (.unknown, .unknown):
+            return true
+        default:
+            return false
+        }
+    }
+}

@@ -20,6 +20,15 @@ struct MoviesDTO: Codable {
 }
 
 
+extension MoviesDTO: Equatable {
+    public static func == (lhs: MoviesDTO, rhs: MoviesDTO) -> Bool {
+        lhs.page == rhs.page &&
+        lhs.results == rhs.results &&
+        lhs.totalPages == rhs.totalPages
+    }
+}
+
+
 struct MovieDTO: Codable {
     let adult: Bool
     let backdropPath: String?
@@ -54,3 +63,11 @@ struct MovieDTO: Codable {
         case voteCount = "vote_count"
     }
 }
+
+
+extension MovieDTO: Equatable {
+    public static func == (lhs: MovieDTO, rhs: MovieDTO) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
