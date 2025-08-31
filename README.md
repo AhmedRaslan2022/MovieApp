@@ -77,6 +77,9 @@ The app leverages **Core Data** for a seamless offline-first experience:
 
 ---
 
+## 🧪 Unit Testing
+The MovieApp uses Clean MVVM to ensure easy unit testing with XCTest. ViewModels, Use Cases, Repositories, and Data Sources are tested with mocks. Dependency Injection isolates components, enabling high test coverage and reliable testing of edge cases like network failures or empty caches.
+
 ## 📱 Features
 
 - **Browse Movies**: Paginated list of movies with smooth scrolling.
