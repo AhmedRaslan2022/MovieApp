@@ -44,6 +44,6 @@ public class MoviesCoordinator: MoviesCoordinatorProtocol {
     
     fileprivate func navigateToMovieDetails(_ movie: MovieEntity) {
         let vc = dependencies.makeMovieDetailsViewController(movie: movie)
-        navigationController.pushViewController(vc, animated: false)
+        navigationController.pushViewController(vc, animated: true)
     }
 }
