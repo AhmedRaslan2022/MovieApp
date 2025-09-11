@@ -64,7 +64,7 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
                 guard let self = self else { return }
                 viewState.send(.favIsUpdated)
                 var updatedMovie = movie
-                updatedMovie.isFavourite.toggle()
+                updatedMovie.isFavourite = isFavourite
                 NotificationCenter.default.post(
                     name: .movieUpdated,
                     object: nil,
