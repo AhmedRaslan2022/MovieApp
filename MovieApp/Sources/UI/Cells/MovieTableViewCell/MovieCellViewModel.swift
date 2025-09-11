@@ -16,9 +16,11 @@ protocol MovieCellViewModelType {
     var ratingText: String { get }
     var releaseDate: String { get }
     var isFavourite: Bool { get }
+    var starsRating: Double { get }
 }
 
 final class MovieCellViewModel: MovieCellViewModelType, Equatable {
+    
     
     
     private let movie: MovieEntity
@@ -34,6 +36,7 @@ final class MovieCellViewModel: MovieCellViewModelType, Equatable {
     var ratingText: String { String(format: "%.1f/10", movie.rating) }
     var isFavourite: Bool { movie.isFavourite }
     var releaseDate: String { "Release Date: \(movie.releaseDate)" }
+    var starsRating: Double { movie.rating / 2.0 } 
 
     
     static func == (lhs: MovieCellViewModel, rhs: MovieCellViewModel) -> Bool {

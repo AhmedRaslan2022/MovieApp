@@ -48,7 +48,7 @@ final class MovieTableViewCell: UITableViewCell {
         movieReleaseDateLabel.text = movie.releaseDate
         favButton.isSelected = movie.isFavourite
         favButton.tintColor = movie.isFavourite ? .red : .white
-        rateStarsView.rating = Float(movie.rating)
+        rateStarsView.rating = Float(movie.starsRating)
     }
     
     
